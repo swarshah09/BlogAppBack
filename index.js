@@ -5,22 +5,21 @@ import cookieParser from "cookie-parser";
 import userRoute from "./routes/userRoute.js";
 import tweetRoute from "./routes/tweetRoute.js";
 import cors from "cors";
+import path from 'path'; // Import path module
 
 dotenv.config({
     path:".env"
 })
 databaseConnection();
 const app = express(); 
-const PORT = 8080; 
-import path from 'path';
-
+const PORT = process.env.PORT || 8080; // Use process.env.PORT as the port, fallback to 8080
 const __dirname1 = path.resolve();
 
 if (process.env.NODE_ENV === 'production') {    
-    app.use(express.static(path.join(__dirname1, "../blogg/build"))); // Adjust the path to client build directory
+    app.use(express.static(path.join(__dirname1, "../frontend/blogg/build"))); // Adjust the path to your frontend build directory
 
     app.get('*', (request, response) => {
-        response.sendFile(path.resolve(__dirname1, "..", "blog", "build", "index.html")); // Adjust the path to index.html
+        response.sendFile(path.resolve(__dirname1, "..", "frontend", "blogg", "build", "index.html")); // Adjust the path to index.html
     })
 } else {
     app.get("/", (request, response) => {
@@ -44,6 +43,6 @@ app.use("/api/v1/user",userRoute);
 app.use("/api/v1/tweet", tweetRoute);
  
 
-app.listen(process.env.PORT,() => {
-    console.log(`Server listen at port ${process.env.PORT}`);
+app.listen(PORT, () => { // Use PORT variable
+    console.log(`Server listen at port ${PORT}`);
 })
