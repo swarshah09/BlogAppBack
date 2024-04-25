@@ -13,6 +13,19 @@ databaseConnection();
 const app = express(); 
 const PORT = 8080; 
 
+const __dirname1 = path.resolve();
+
+if (process.env.NODE_ENV === 'production') {    
+    app.use(express.static(path.join(__dirname1, "../blogg/build"))); // Adjust the path to client build directory
+
+    app.get('*', (request, response) => {
+        response.sendFile(path.resolve(__dirname1, "..", "blog", "build", "index.html")); // Adjust the path to index.html
+    })
+} else {
+    app.get("/", (request, response) => {
+        response.send("API running successfully");
+    });
+}
 // middlewares
 app.use(express.urlencoded({
     extended:true
