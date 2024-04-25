@@ -12,6 +12,7 @@ dotenv.config({
 databaseConnection();
 const app = express(); 
 const PORT = 8080; 
+import path from 'path';
 
 const __dirname1 = path.resolve();
 
